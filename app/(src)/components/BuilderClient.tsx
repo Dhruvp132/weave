@@ -7,7 +7,7 @@ import CodeEditor from './CodeEditor';
 import PreviewFrame from './PreviewFrame';
 import { Step, FileItem, StepType } from '../types';
 import axios from 'axios';
-import { BACKEND_URL } from '../config';
+// import { BACKEND_URL } from '../config';
 import { parseXml } from '../steps';
 import Loader from './Loader';
 import WebContainerContext from '../webcontainer-context';
@@ -136,7 +136,7 @@ export default function BuilderClient({ prompt }: BuilderClientProps) {
   }
 
   async function init() {
-    const response = await axios.post<TemplateResponse>(`${BACKEND_URL}/api/template`, {
+    const response = await axios.post<TemplateResponse>(`/api/template`, {
       prompt: prompt.trim()
     });
     setTemplateSet(true);
@@ -148,7 +148,7 @@ export default function BuilderClient({ prompt }: BuilderClientProps) {
       }))
     );
     setLoading(true);
-    const stepsResponse = await axios.post<ChatResponse>(`${BACKEND_URL}/api/chat`, {
+    const stepsResponse = await axios.post<ChatResponse>(`/api/chat`, {
       content: [...prompts, prompt].map(text => ({
         role: "user",
         parts: [{ text }]
@@ -213,7 +213,7 @@ export default function BuilderClient({ prompt }: BuilderClientProps) {
                       parts: [{ text: userPrompt }]
                     };
                     setLoading(true);
-                    const stepsResponse = await axios.post<ChatResponse>(`${BACKEND_URL}/api/chat`, {
+                    const stepsResponse = await axios.post<ChatResponse>(`/api/chat`, {
                       content: [...llmMessages, newMessage]
                     });
                     setLoading(false);
